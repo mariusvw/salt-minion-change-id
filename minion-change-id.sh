@@ -59,9 +59,13 @@ MINION_OS=$(salt --out=txt -l quiet "$id_old" grains.get os | awk -F': ' '{ prin
 if [ "${MINION_OS}" = "FreeBSD" ]
 then
     service="salt_minion"
+    user="root"
+    group="wheel"
 elif [ "${MINION_OS}" = "GNU/Linux" ] || [ "${MINION_OS}" = "Ubuntu" ] || [ "${MINION_OS}" = "Raspbian" ]
 then
     service="salt-minion"
+    user="root"
+    group="root"
 else
     echo "Unknown MINION OS"
     exit
@@ -78,7 +82,7 @@ then
 fi
 
 echo "[+] Replace id in minion_id cachefile"
-salt -l quiet "$id_old" file.manage_file "$id_file" '' '{}' '' '' root root '755' '' base '' contents="$id_new"
+salt -l quiet "$id_old" file.manage_file "$id_file" '' '{}' '' '' $user $group '755' '' base '' contents="$id_new"
 test "$?" -ne 0 && echo "Failed to change minion_id content" && exit
 
 echo "[+] Replace id in minion config"
