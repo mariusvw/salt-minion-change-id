@@ -38,7 +38,7 @@ MASTER_OS=$(salt-call --local --out=txt -l quiet grains.get os | awk -F': ' '{ p
 if [ "${MASTER_OS}" = "FreeBSD" ]
 then
     master_pki="/usr/local/etc/salt/pki"
-elif [ "${MASTER_OS}" = "GNU/Linux" ] || [ "${MASTER_OS}" = "Ubuntu" ] || [ "${MASTER_OS}" = "Raspbian" ]
+elif [ "${MASTER_OS}" = "GNU/Linux" ] || [ "${MINION_OS}" = "Debian" ] || [ "${MASTER_OS}" = "Ubuntu" ] || [ "${MASTER_OS}" = "Raspbian" ]
 then
     master_pki="/etc/salt/pki"
 else
