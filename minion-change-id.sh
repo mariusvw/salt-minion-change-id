@@ -86,7 +86,7 @@ salt -l quiet "$id_old" file.manage_file "$id_file" '' '{}' '' '' $user $group '
 test "$?" -ne 0 && echo "Failed to change minion_id content" && exit
 
 echo "[+] Replace id in minion config if set"
-salt -l quiet "$id_old" file.line "$conf_file" content="id: $id_new" match='^id:.*' mode=replace quiet=True
+salt -l quiet "$id_old" file.replace "$conf_file" "^id:.*" "id: $id_new"
 test "$?" -ne 0 && echo "Failed to change id in minion config" && exit
 
 echo "[+] Restart minion service"
